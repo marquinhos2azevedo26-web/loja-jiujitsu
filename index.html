@@ -1,14 +1,49 @@
-<!-- Botão de login/admin -->
-<button id="btnAdmin" class="btn" style="position:fixed;top:10px;right:10px;background:red;">Admin</button>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Loja de Jiu-Jitsu</title>
+<style>
+    body {
+        margin:0; font-family:Arial,sans-serif; background:#000; color:#fff;
+    }
+    header { text-align:center; padding:40px; background:#111; }
+    header h1 { color:#f00; font-size:2.5em; margin-bottom:10px; }
+    header p { font-size:1.2em; }
+    header .btn { background:#f00; color:#fff; padding:10px 20px; text-decoration:none; border-radius:5px; display:inline-block; margin-top:10px; }
+    .produtos { display:flex; flex-wrap:wrap; justify-content:center; padding:20px; }
+    .produto { background:#111; border:1px solid #f00; margin:10px; padding:10px; width:200px; text-align:center; border-radius:5px; }
+    .produto img { width:100%; height:200px; object-fit:cover; }
+    .produto h3 { color:#f00; margin:10px 0 5px; }
+    .produto p { font-size:0.9em; margin-bottom:10px; }
+    .btn { background:#f00; color:#fff; padding:5px 10px; text-decoration:none; border-radius:5px; margin:5px 0; display:inline-block; cursor:pointer; }
+    /* Painel admin */
+    #btnAdmin { position:fixed;top:10px;right:10px;background:#f00;color:#fff;padding:10px;z-index:1000;border:none;border-radius:5px;cursor:pointer; }
+    #adminPanel { display:none;background:#111;color:#fff;padding:20px;position:fixed;top:50px;right:50px;width:300px;border:2px solid #f00;z-index:1000; }
+    #adminPanel input { width:100%; margin:5px 0; padding:5px; border-radius:3px; border:none; }
+    #adminPanel button { width:100%; margin:5px 0; padding:8px; background:#f00; border:none; border-radius:3px; color:#fff; cursor:pointer; }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Os melhores kimonos e acessórios de Jiu-Jitsu</h1>
+    <p>Em um só lugar, com revenda segura!</p>
+    <a href="#produtos" class="btn">Ver Produtos</a>
+</header>
+
+<!-- Botão Admin -->
+<button id="btnAdmin">Admin</button>
 
 <!-- Painel Admin -->
-<div id="adminPanel" style="display:none;background:#111;color:#fff;padding:20px;position:fixed;top:50px;right:50px;width:300px;border:2px solid red;z-index:1000;">
+<div id="adminPanel">
     <h3>Painel Admin</h3>
-    <label>Senha:</label>
-    <input type="password" id="senhaAdmin" placeholder="Digite a senha">
-    <button id="entrarAdmin">Entrar</button>
-
-    <div id="painelConteudo" style="display:none;margin-top:20px;">
+    <div id="loginDiv">
+        <input type="password" id="senhaAdmin" placeholder="Digite a senha">
+        <button id="entrarAdmin">Entrar</button>
+    </div>
+    <div id="painelConteudo" style="display:none;">
         <h4>Adicionar Produto</h4>
         <input type="text" id="nomeProduto" placeholder="Nome">
         <input type="text" id="categoriaProduto" placeholder="Categoria">
@@ -27,7 +62,7 @@
 
 <script>
 // Senha do admin
-const senhaCorreta = "1234"; // Troque para sua senha
+const senhaCorreta = "180525";
 
 // Elementos
 const btnAdmin = document.getElementById("btnAdmin");
@@ -52,7 +87,7 @@ function renderProdutos() {
             <img src="${p.imagem}" alt="${p.nome}">
             <h3>${p.nome} - R$${p.preco}</h3>
             <p>${p.descricao}</p>
-            <a href="#" class="btn" onclick="enviarWhatsApp('${p.nome}','${p.preco}')">Pedir no WhatsApp</a>
+            <a class="btn" onclick="enviarWhatsApp('${p.nome}','${p.preco}')">Pedir no WhatsApp</a>
         `;
         listaProdutos.appendChild(div);
     });
@@ -81,7 +116,7 @@ document.getElementById("adicionarProduto").addEventListener("click", () => {
     const imagem = document.getElementById("imagemProduto").value;
     const preco = document.getElementById("precoProduto").value;
 
-    if(!nome || !categoria || !preco) return alert("Preencha pelo menos nome, categoria e preço");
+    if(!nome || !categoria || !preco) return alert("Preencha nome, categoria e preço");
 
     produtos.push({nome, categoria, descricao, imagem, preco});
     localStorage.setItem("produtos", JSON.stringify(produtos));
@@ -124,7 +159,7 @@ btnAdmin.addEventListener("click", () => {
 
 // Função WhatsApp
 function enviarWhatsApp(nome, preco) {
-    let numero = "5511912345678"; // Troque para seu número
+    let numero = "559887420978"; // Troque para seu número
     let mensagem = `Olá, quero pedir este produto:%0A%0AProduto: ${nome}%0APreço: R$${preco}`;
     window.open(`https://wa.me/${numero}?text=${mensagem}`, "_blank");
 }
@@ -132,4 +167,7 @@ function enviarWhatsApp(nome, preco) {
 // Inicializa
 renderProdutos();
 </script>
+
+</body>
+</html>
 
