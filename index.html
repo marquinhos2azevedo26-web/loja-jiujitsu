@@ -298,26 +298,39 @@ let produtos = [];
 const listaProdutos = document.getElementById("produtos");
 const listaAdmin = document.getElementById("listaAdmin");
 
-// Carrega do localStorage se houver
-const produtosSalvos = localStorage.getItem("produtos");
-if (produtosSalvos) {
-    produtos = JSON.parse(produtosSalvos);
-    renderProdutos();
-    renderAdmin();
-} else {
-    carregarProdutos();
-}
+// JSONBin config
+const BIN_URL = "https://api.jsonbin.io/v3/b/698dee6cd0ea881f40b5340b";
+const API_KEY = "$2a$10$KgzwRXceXlZ0Rs1FpdBCC.RUFQ93BtDi1y86Ur6JwCa7HbvOYOkKG"; // <-- coloque sua X-Master-Key aqui
 
-// Carrega do GitHub caso localStorage esteja vazio
 async function carregarProdutos() {
     try {
-        const res = await fetch("https://raw.githubusercontent.com/marquinhos2azevedo26-web/loja-jiujitsu/main/produtos.json");
-        produtos = await res.json();
+        const res = await fetch(BIN_URL + "/latest", {
+            headers: { "X-Master-Key": API_KEY }
+        });
+        const data = await res.json();
+        produtos = data.record.produtos || [];
         renderProdutos();
         renderAdmin();
     } catch (err) {
         console.error("Erro ao carregar produtos:", err);
         listaProdutos.innerHTML = "<p>Erro ao carregar produtos.</p>";
+    }
+}
+
+async function salvarProdutosNoBin() {
+    try {
+        await fetch(BIN_URL, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Master-Key": API_KEY,
+                "X-Bin-Versioning": "false"
+            },
+            body: JSON.stringify({ produtos })
+        });
+        console.log("Produtos salvos no JSONBin!");
+    } catch (err) {
+        console.error("Erro ao salvar produtos:", err);
     }
 }
 
@@ -349,7 +362,7 @@ function renderAdmin(){
 }
 
 // Adicionar produto
-document.getElementById("adicionarProduto").addEventListener("click", ()=>{
+document.getElementById("adicionarProduto").addEventListener("click", async ()=>{
     const nome = document.getElementById("nomeProduto").value;
     const categoria = document.getElementById("categoriaProduto").value;
     const descricao = document.getElementById("descricaoProduto").value;
@@ -359,7 +372,7 @@ document.getElementById("adicionarProduto").addEventListener("click", ()=>{
     if(!nome || !categoria || !preco) return alert("Preencha nome, categoria e preço");
 
     produtos.push({nome,categoria,descricao,imagem,preco});
-    localStorage.setItem("produtos",JSON.stringify(produtos));
+    await salvarProdutosNoBin();
     renderProdutos();
     renderAdmin();
 
@@ -370,9 +383,10 @@ document.getElementById("adicionarProduto").addEventListener("click", ()=>{
     document.getElementById("precoProduto").value="";
 });
 
-function removerProduto(i){
+// Remover produto
+async function removerProduto(i){
     produtos.splice(i,1);
-    localStorage.setItem("produtos",JSON.stringify(produtos));
+    await salvarProdutosNoBin();
     renderProdutos();
     renderAdmin();
 }
@@ -388,10 +402,10 @@ function enviarWhatsApp(nome,preco){
 function filtrarCategoria(cat){
     renderProdutos(cat);
 }
+
+// Inicializa
+carregarProdutos();
 </script>
 
 </body>
 </html>
-
-</html>
-
