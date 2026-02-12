@@ -1,256 +1,135 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elite Jiu-Jitsu Store</title>
+<!-- Botão de login/admin -->
+<button id="btnAdmin" class="btn" style="position:fixed;top:10px;right:10px;background:red;">Admin</button>
 
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- Painel Admin -->
+<div id="adminPanel" style="display:none;background:#111;color:#fff;padding:20px;position:fixed;top:50px;right:50px;width:300px;border:2px solid red;z-index:1000;">
+    <h3>Painel Admin</h3>
+    <label>Senha:</label>
+    <input type="password" id="senhaAdmin" placeholder="Digite a senha">
+    <button id="entrarAdmin">Entrar</button>
 
-<style>
-:root {
-    --preto: #111;
-    --branco: #ffffff;
-    --vermelho: #d60000;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: var(--preto);
-    color: var(--branco);
-}
-
-header {
-    background: #000;
-    padding: 15px 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-header h1 {
-    font-family: 'Oswald', sans-serif;
-    color: var(--vermelho);
-}
-
-nav a {
-    color: var(--branco);
-    margin-left: 20px;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-nav a:hover {
-    color: var(--vermelho);
-}
-
-.banner {
-    background: url('https://images.unsplash.com/photo-1605296867304-46d5465a13f1') center/cover no-repeat;
-    height: 70vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-}
-
-.banner-content {
-    background: rgba(0,0,0,0.7);
-    padding: 40px;
-    border-radius: 10px;
-}
-
-.banner h2 {
-    font-family: 'Oswald', sans-serif;
-    font-size: 2.2rem;
-    margin-bottom: 20px;
-}
-
-.btn {
-    background: var(--vermelho);
-    padding: 12px 25px;
-    color: var(--branco);
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: 0.3s;
-    display: inline-block;
-    margin-top: 10px;
-}
-
-.btn:hover {
-    background: #ff1a1a;
-}
-
-.section {
-    padding: 60px 5%;
-}
-
-.section h2 {
-    font-family: 'Oswald', sans-serif;
-    margin-bottom: 30px;
-    text-align: center;
-}
-
-.filtro-busca {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 30px;
-}
-
-.filtro-busca input,
-.filtro-busca select {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-}
-
-.produtos {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
-}
-
-.produto {
-    background: #1c1c1c;
-    padding: 15px;
-    border-radius: 8px;
-    transition: 0.3s;
-}
-
-.produto:hover {
-    transform: translateY(-5px);
-}
-
-.produto img {
-    width: 100%;
-    border-radius: 5px;
-}
-
-.produto h3 {
-    margin: 10px 0;
-    font-family: 'Oswald', sans-serif;
-}
-
-.produto p {
-    font-size: 0.9rem;
-    margin-bottom: 10px;
-}
-
-.promo {
-    background: var(--vermelho);
-    padding: 30px;
-    text-align: center;
-    font-weight: bold;
-}
-
-footer {
-    background: #000;
-    padding: 40px 5%;
-    text-align: center;
-}
-
-footer a {
-    color: var(--vermelho);
-    text-decoration: none;
-}
-</style>
-</head>
-
-<body>
-
-<header>
-    <h1>Elite Jiu-Jitsu Store</h1>
-    <nav>
-        <a href="#produtos">Produtos</a>
-        <a href="#contato">Contato</a>
-    </nav>
-</header>
-
-<section class="banner">
-    <div class="banner-content">
-        <h2>Os melhores kimonos e acessórios de Jiu-Jitsu em um só lugar</h2>
-        <a href="#produtos" class="btn">Ver Produtos</a>
+    <div id="painelConteudo" style="display:none;margin-top:20px;">
+        <h4>Adicionar Produto</h4>
+        <input type="text" id="nomeProduto" placeholder="Nome">
+        <input type="text" id="categoriaProduto" placeholder="Categoria">
+        <input type="text" id="descricaoProduto" placeholder="Descrição">
+        <input type="text" id="imagemProduto" placeholder="URL da Imagem">
+        <input type="text" id="precoProduto" placeholder="Preço final (R$)">
+        <button id="adicionarProduto">Adicionar</button>
+        <h4>Produtos Adicionados</h4>
+        <div id="listaAdmin"></div>
+        <button id="sairAdmin">Sair</button>
     </div>
-</section>
+</div>
 
-<section class="section" id="produtos">
-    <h2>Nossos Produtos</h2>
-
-    <div class="filtro-busca">
-        <input type="text" id="busca" placeholder="Buscar produto...">
-        <select id="categoriaFiltro">
-            <option value="todos">Todas Categorias</option>
-            <option value="kimono">Kimonos</option>
-            <option value="faixa">Faixas</option>
-            <option value="rash">Rash Guards</option>
-            <option value="short">Shorts / Bermudas</option>
-            <option value="acessorio">Acessórios</option>
-        </select>
-    </div>
-
-    <div class="produtos" id="listaProdutos">
-
-        <!-- DUPLIQUE ESTE BLOCO PARA ADICIONAR MAIS PRODUTOS -->
-        <div class="produto" data-categoria="kimono">
-            <img src="https://images.unsplash.com/photo-1605296867304-46d5465a13f1" alt="Kimono Pro">
-            <h3>Kimono Pro Competition</h3>
-            <p>Kimono leve e resistente para competição.</p>
-            <a href="https://seulink.com/produto1" target="_blank" class="btn">Ver Produto</a>
-            <a href="#" class="btn" onclick="enviarWhatsApp('Kimono Pro Competition','https://seulink.com/produto1')">
-                Pedir no WhatsApp
-            </a>
-        </div>
-
-    </div>
-</section>
-
-<section class="promo">
-    🔥 Promoções da Semana – Consulte no WhatsApp!
-</section>
-
-<footer id="contato">
-    <p><strong>Contato:</strong></p>
-    <p>WhatsApp: <a href="https://wa.me/5599999999999" target="_blank">Clique aqui</a></p>
-    <p>Instagram: <a href="https://instagram.com/seuinstagram" target="_blank">@seuinstagram</a></p>
-    <p><a href="#">Política de Privacidade</a></p>
-</footer>
+<!-- Vitrine de produtos -->
+<div class="produtos" id="listaProdutos"></div>
 
 <script>
-function enviarWhatsApp(nome, link) {
-    let numero = "559887420978"; // COLOQUE SEU NÚMERO AQUI
-    let mensagem = `Olá, quero pedir este produto:%0A%0AProduto: ${nome}%0ALink: ${link}`;
+// Senha do admin
+const senhaCorreta = "1234"; // Troque para sua senha
+
+// Elementos
+const btnAdmin = document.getElementById("btnAdmin");
+const adminPanel = document.getElementById("adminPanel");
+const entrarAdmin = document.getElementById("entrarAdmin");
+const painelConteudo = document.getElementById("painelConteudo");
+const sairAdmin = document.getElementById("sairAdmin");
+const listaAdmin = document.getElementById("listaAdmin");
+const listaProdutos = document.getElementById("listaProdutos");
+
+// Produtos no localStorage
+let produtos = JSON.parse(localStorage.getItem("produtos")) || [];
+
+// Mostrar produtos na vitrine
+function renderProdutos() {
+    listaProdutos.innerHTML = "";
+    produtos.forEach((p, i) => {
+        const div = document.createElement("div");
+        div.classList.add("produto");
+        div.dataset.categoria = p.categoria.toLowerCase();
+        div.innerHTML = `
+            <img src="${p.imagem}" alt="${p.nome}">
+            <h3>${p.nome} - R$${p.preco}</h3>
+            <p>${p.descricao}</p>
+            <a href="#" class="btn" onclick="enviarWhatsApp('${p.nome}','${p.preco}')">Pedir no WhatsApp</a>
+        `;
+        listaProdutos.appendChild(div);
+    });
+}
+
+// Renderizar produtos admin
+function renderAdmin() {
+    listaAdmin.innerHTML = "";
+    produtos.forEach((p, i) => {
+        const div = document.createElement("div");
+        div.style.borderBottom = "1px solid #fff";
+        div.style.marginBottom = "5px";
+        div.innerHTML = `
+            ${p.nome} - ${p.categoria} - R$${p.preco}
+            <button onclick="removerProduto(${i})">Remover</button>
+        `;
+        listaAdmin.appendChild(div);
+    });
+}
+
+// Adicionar produto
+document.getElementById("adicionarProduto").addEventListener("click", () => {
+    const nome = document.getElementById("nomeProduto").value;
+    const categoria = document.getElementById("categoriaProduto").value;
+    const descricao = document.getElementById("descricaoProduto").value;
+    const imagem = document.getElementById("imagemProduto").value;
+    const preco = document.getElementById("precoProduto").value;
+
+    if(!nome || !categoria || !preco) return alert("Preencha pelo menos nome, categoria e preço");
+
+    produtos.push({nome, categoria, descricao, imagem, preco});
+    localStorage.setItem("produtos", JSON.stringify(produtos));
+    renderProdutos();
+    renderAdmin();
+
+    // Limpar campos
+    document.getElementById("nomeProduto").value = "";
+    document.getElementById("categoriaProduto").value = "";
+    document.getElementById("descricaoProduto").value = "";
+    document.getElementById("imagemProduto").value = "";
+    document.getElementById("precoProduto").value = "";
+});
+
+// Remover produto
+function removerProduto(i) {
+    produtos.splice(i,1);
+    localStorage.setItem("produtos", JSON.stringify(produtos));
+    renderProdutos();
+    renderAdmin();
+}
+
+// Login admin
+entrarAdmin.addEventListener("click", () => {
+    const senha = document.getElementById("senhaAdmin").value;
+    if(senha === senhaCorreta){
+        painelConteudo.style.display = "block";
+    } else alert("Senha incorreta");
+});
+
+// Sair admin
+sairAdmin.addEventListener("click", () => {
+    painelConteudo.style.display = "none";
+});
+
+// Mostrar painel
+btnAdmin.addEventListener("click", () => {
+    adminPanel.style.display = "block";
+});
+
+// Função WhatsApp
+function enviarWhatsApp(nome, preco) {
+    let numero = "5511912345678"; // Troque para seu número
+    let mensagem = `Olá, quero pedir este produto:%0A%0AProduto: ${nome}%0APreço: R$${preco}`;
     window.open(`https://wa.me/${numero}?text=${mensagem}`, "_blank");
 }
 
-document.getElementById("busca").addEventListener("keyup", filtrar);
-document.getElementById("categoriaFiltro").addEventListener("change", filtrar);
-
-function filtrar() {
-    let texto = document.getElementById("busca").value.toLowerCase();
-    let categoria = document.getElementById("categoriaFiltro").value;
-    let produtos = document.querySelectorAll(".produto");
-
-    produtos.forEach(produto => {
-        let nome = produto.querySelector("h3").textContent.toLowerCase();
-        let cat = produto.getAttribute("data-categoria");
-
-        let correspondeTexto = nome.includes(texto);
-        let correspondeCategoria = categoria === "todos" || cat === categoria;
-
-        produto.style.display = (correspondeTexto && correspondeCategoria) ? "block" : "none";
-    });
-}
+// Inicializa
+renderProdutos();
 </script>
-
-</body>
-</html>
 
