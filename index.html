@@ -293,10 +293,33 @@ sairAdmin.addEventListener("click", () => {
 });
 
 // ===== Produtos =====
-let produtos = JSON.parse(localStorage.getItem("produtos")) || [];
+let produtos = [];
 
 const listaProdutos = document.getElementById("produtos");
 const listaAdmin = document.getElementById("listaAdmin");
+
+// Carrega do localStorage se houver
+const produtosSalvos = localStorage.getItem("produtos");
+if (produtosSalvos) {
+    produtos = JSON.parse(produtosSalvos);
+    renderProdutos();
+    renderAdmin();
+} else {
+    carregarProdutos();
+}
+
+// Carrega do GitHub caso localStorage esteja vazio
+async function carregarProdutos() {
+    try {
+        const res = await fetch("https://raw.githubusercontent.com/marquinhos2azevedo26-web/loja-jiujitsu/main/produtos.json");
+        produtos = await res.json();
+        renderProdutos();
+        renderAdmin();
+    } catch (err) {
+        console.error("Erro ao carregar produtos:", err);
+        listaProdutos.innerHTML = "<p>Erro ao carregar produtos.</p>";
+    }
+}
 
 function renderProdutos(filtro = null){
     listaProdutos.innerHTML = "";
@@ -356,7 +379,7 @@ function removerProduto(i){
 
 // WhatsApp
 function enviarWhatsApp(nome,preco){
-    let numero = "559887420978"; // Troque para seu número
+    let numero = "559887420978";
     let mensagem = `Olá, quero pedir este produto:%0A%0AProduto: ${nome}%0APreço: R$${preco}`;
     window.open(`https://wa.me/${numero}?text=${mensagem}`,"_blank");
 }
@@ -365,14 +388,10 @@ function enviarWhatsApp(nome,preco){
 function filtrarCategoria(cat){
     renderProdutos(cat);
 }
-
-// Inicializa
-renderProdutos();
-renderAdmin();
 </script>
 
 </body>
 </html>
 
-
+</html>
 
