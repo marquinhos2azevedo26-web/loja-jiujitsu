@@ -19,7 +19,7 @@ body {
 
 a { text-decoration:none; }
 
-/* ===== Banner principal ===== */
+/* ===== Header / Banner ===== */
 header {
     position:relative;
     height:60vh;
@@ -29,6 +29,10 @@ header {
     justify-content:center;
     align-items:center;
     text-align:center;
+}
+header img.logo {
+    width:120px;
+    margin-bottom:15px;
 }
 header h1 {
     color:#f00;
@@ -74,25 +78,31 @@ header .btn-banner:hover {
     align-items:center;
     justify-content:center;
     cursor:pointer;
-    transition:0.3s;
     text-align:center;
     padding:10px;
+    border:2px solid transparent;
+    transition:0.3s, transform 0.2s;
 }
 .categoria-card img {
     width:80px;
     height:80px;
     object-fit:contain;
     margin-bottom:10px;
+    transition:0.3s;
 }
 .categoria-card span {
     font-weight:bold;
+    color:#fff;
 }
 .categoria-card:hover {
-    background:#f00;
-    color:#000;
+    transform:scale(1.05);
+}
+.categoria-card.ativo {
+    border:2px solid #f00;
+    background:#222;
 }
 
-/* ===== Vitrine de produtos ===== */
+/* ===== Produtos ===== */
 #produtos {
     display:flex;
     flex-wrap:wrap;
@@ -139,6 +149,25 @@ header .btn-banner:hover {
 .produto-card .btn-produto:hover {
     background:#fff;
     color:#f00;
+}
+
+/* ===== Miniaturas de imagens ===== */
+.miniaturas {
+    display:flex;
+    justify-content:center;
+    gap:5px;
+    margin-top:5px;
+}
+.miniaturas img {
+    width:40px;
+    height:40px;
+    object-fit:cover;
+    cursor:pointer;
+    border:1px solid #f00;
+    border-radius:5px;
+}
+.miniaturas img:hover {
+    border-color:#fff;
 }
 
 /* ===== Rodapé ===== */
@@ -200,13 +229,20 @@ footer a:hover {
     border-radius:5px;
     cursor:pointer;
 }
-#listaAdmin button {
-    background:#fff;
-    color:#f00;
-    border:none;
-    border-radius:5px;
-    padding:3px 6px;
-    cursor:pointer;
+
+/* ===== Responsivo ===== */
+@media(max-width:768px){
+    header h1 { font-size:2em; }
+    .categoria-card { width:140px; height:140px; }
+    .produto-card { width:160px; }
+    #listaAdmin button {
+        background:#fff;
+        color:#f00;
+        border:none;
+        border-radius:5px;
+        padding:3px 6px;
+        cursor:pointer;
+    }
 }
 </style>
 </head>
@@ -214,6 +250,7 @@ footer a:hover {
 
 <!-- Banner -->
 <header>
+    <img class="logo" src="https://cdn.pixabay.com/photo/2017/03/05/20/02/kimono-2129498_960_720.jpg" alt="Logo Loja BJJ">
     <h1>Os melhores kimonos e acessórios de Jiu-Jitsu</h1>
     <p>Em um só lugar, com revenda segura!</p>
     <a href="#produtos" class="btn-banner">
@@ -223,24 +260,24 @@ footer a:hover {
 
 <!-- Categorias -->
 <section id="categorias">
-    <div class="categoria-card" onclick="filtrarCategoria('Kimonos')">
-        <img src="https://images.unsplash.com/photo-1612093961216-3109a815d38e?auto=format&fit=crop&w=80&q=80" alt="Kimonos">
+    <div class="categoria-card" data-categoria="Kimonos" onclick="filtrarCategoria('Kimonos', this)">
+        <img src="https://cdn.pixabay.com/photo/2017/03/05/20/02/kimono-2129498_960_720.jpg" alt="Kimonos">
         <span>Kimonos</span>
     </div>
-    <div class="categoria-card" onclick="filtrarCategoria('Faixas')">
-        <img src="https://images.unsplash.com/photo-1599058917219-2e0936ebc3cd?auto=format&fit=crop&w=80&q=80" alt="Faixas">
+    <div class="categoria-card" data-categoria="Faixas" onclick="filtrarCategoria('Faixas', this)">
+        <img src="https://cdn.pixabay.com/photo/2016/11/22/19/15/brazilian-1842602_960_720.jpg" alt="Faixas">
         <span>Faixas</span>
     </div>
-    <div class="categoria-card" onclick="filtrarCategoria('Rash Guards')">
-        <img src="https://images.unsplash.com/photo-1599058921241-28b4c4d58c6e?auto=format&fit=crop&w=80&q=80" alt="Rash Guards">
+    <div class="categoria-card" data-categoria="Rash Guards" onclick="filtrarCategoria('Rash Guards', this)">
+        <img src="https://cdn.pixabay.com/photo/2018/08/22/21/11/sports-3620372_960_720.jpg" alt="Rash Guards">
         <span>Rash Guards</span>
     </div>
-    <div class="categoria-card" onclick="filtrarCategoria('Shorts')">
-        <img src="https://images.unsplash.com/photo-1605902711622-cfb43c44300c?auto=format&fit=crop&w=80&q=80" alt="Shorts">
+    <div class="categoria-card" data-categoria="Shorts" onclick="filtrarCategoria('Shorts', this)">
+        <img src="https://cdn.pixabay.com/photo/2018/03/29/17/21/sports-3274913_960_720.jpg" alt="Shorts">
         <span>Shorts/Bermudas</span>
     </div>
-    <div class="categoria-card" onclick="filtrarCategoria('Acessórios')">
-        <img src="https://images.unsplash.com/photo-1613386579737-0c8a4b4a6765?auto=format&fit=crop&w=80&q=80" alt="Acessórios">
+    <div class="categoria-card" data-categoria="Acessórios" onclick="filtrarCategoria('Acessórios', this)">
+        <img src="https://cdn.pixabay.com/photo/2016/03/31/19/56/brazilian-1296784_960_720.jpg" alt="Acessórios">
         <span>Acessórios</span>
     </div>
 </section>
@@ -252,7 +289,7 @@ footer a:hover {
 <footer>
     <div>
         <h4>Contato</h4>
-        <p>Email: contato@jiujiselwa.com</p>
+        <p>Email: contato@jiujitsuloja.com</p>
         <p>Tel: +55 98 8742-0978</p>
     </div>
     <div>
@@ -277,7 +314,7 @@ footer a:hover {
         <input type="text" id="nomeProduto" placeholder="Nome">
         <input type="text" id="categoriaProduto" placeholder="Categoria">
         <input type="text" id="descricaoProduto" placeholder="Descrição">
-        <input type="text" id="imagemProduto" placeholder="URL da Imagem">
+        <input type="text" id="imagensProduto" placeholder="URLs das imagens (separadas por vírgula)">
         <input type="text" id="precoProduto" placeholder="Preço final (R$)">
         <button id="adicionarProduto">Adicionar</button>
         <h4>Produtos Adicionados</h4>
@@ -318,12 +355,13 @@ sairAdmin.addEventListener("click", () => {
 
 // ===== Produtos =====
 let produtos = [];
+
 const listaProdutos = document.getElementById("produtos");
 const listaAdmin = document.getElementById("listaAdmin");
 
 // JSONBin config
 const BIN_URL = "https://api.jsonbin.io/v3/b/698dee6cd0ea881f40b5340b";
-const API_KEY = "$2a$10$KgzwRXceXlZ0Rs1FpdBCC.RUFQ93BtDi1y86Ur6JwCa7HbvOYOkKG"; 
+const API_KEY = "$2a$10$KgzwRXceXlZ0Rs1FpdBCC.RUFQ93BtDi1y86Ur6JwCa7HbvOYOkKG";
 
 async function carregarProdutos() {
     try {
@@ -357,14 +395,27 @@ async function salvarProdutosNoBin() {
     }
 }
 
+// ===== Render produtos com múltiplas imagens =====
 function renderProdutos(filtro = null){
     listaProdutos.innerHTML = "";
     produtos.forEach((p,i)=>{
         if(filtro && p.categoria.toLowerCase() !== filtro.toLowerCase()) return;
+        
+        let imagens = p.imagens || [p.imagem]; // fallback caso ainda tenha só "imagem"
+        let imgHTML = `<img id="imgPrincipal${i}" src="${imagens[0]}" alt="${p.nome}">`;
+
+        if(imagens.length > 1){
+            imgHTML += '<div class="miniaturas">';
+            imagens.forEach((img, index)=>{
+                imgHTML += `<img src="${img}" onclick="trocarImagem(${i},${index})">`;
+            });
+            imgHTML += '</div>';
+        }
+
         const div = document.createElement("div");
         div.classList.add("produto-card");
         div.innerHTML = `
-            <img src="${p.imagem}" alt="${p.nome}">
+            ${imgHTML}
             <h3>${p.nome} - R$${p.preco}</h3>
             <p>${p.descricao}</p>
             <a class="btn-produto" onclick="enviarWhatsApp('${p.nome}','${p.preco}')">
@@ -375,6 +426,13 @@ function renderProdutos(filtro = null){
     });
 }
 
+// Trocar imagem principal
+function trocarImagem(prodIndex, imgIndex){
+    const imgPrincipal = document.getElementById(`imgPrincipal${prodIndex}`);
+    imgPrincipal.src = produtos[prodIndex].imagens[imgIndex];
+}
+
+// Render admin
 function renderAdmin(){
     listaAdmin.innerHTML = "";
     produtos.forEach((p,i)=>{
@@ -391,12 +449,14 @@ document.getElementById("adicionarProduto").addEventListener("click", async ()=>
     const nome = document.getElementById("nomeProduto").value;
     const categoria = document.getElementById("categoriaProduto").value;
     const descricao = document.getElementById("descricaoProduto").value;
-    const imagem = document.getElementById("imagemProduto").value;
+    const imagensStr = document.getElementById("imagensProduto").value;
     const preco = document.getElementById("precoProduto").value;
 
     if(!nome || !categoria || !preco) return alert("Preencha nome, categoria e preço");
 
-    produtos.push({nome,categoria,descricao,imagem,preco});
+    const imagens = imagensStr.split(",").map(i => i.trim()).filter(i => i);
+
+    produtos.push({nome,categoria,descricao,imagens,preco});
     await salvarProdutosNoBin();
     renderProdutos();
     renderAdmin();
@@ -404,7 +464,7 @@ document.getElementById("adicionarProduto").addEventListener("click", async ()=>
     document.getElementById("nomeProduto").value="";
     document.getElementById("categoriaProduto").value="";
     document.getElementById("descricaoProduto").value="";
-    document.getElementById("imagemProduto").value="";
+    document.getElementById("imagensProduto").value="";
     document.getElementById("precoProduto").value="";
 });
 
@@ -423,14 +483,20 @@ function enviarWhatsApp(nome,preco){
     window.open(`https://wa.me/${numero}?text=${mensagem}`,"_blank");
 }
 
-// Filtrar categoria
-function filtrarCategoria(cat){
+// Filtrar categoria com efeito ativo
+function filtrarCategoria(cat, element){
+    document.querySelectorAll('.categoria-card').forEach(c => c.classList.remove('ativo'));
+    element.classList.add('ativo');
     renderProdutos(cat);
 }
 
 // Inicializa
 carregarProdutos();
 </script>
+</body>
+</html>
+
 
 </body>
 </html>
+
