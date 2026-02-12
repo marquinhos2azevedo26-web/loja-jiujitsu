@@ -1,0 +1,16 @@
+[
+  {
+    "nome": "Kimono Azul",
+    "categoria": "Kimonos",
+    "descricao": "Kimono leve e resistente, ideal para treinos.",
+    "imagem": "https://exemplo.com/kimono-azul.jpg",
+    "preco": "199,90"
+  },
+  {
+    "nome": "Faixa Preta",
+    "categoria": "Faixas",
+    "descricao": "Faixa de alta qualidade para todos os níveis.",
+    "imagem": "https://exemplo.com/faixa-preta.jpg",
+    "preco": "49,90"
+  }
+]
