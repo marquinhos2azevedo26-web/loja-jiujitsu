@@ -5,38 +5,243 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Loja de Jiu-Jitsu</title>
 <style>
-    body {
-        margin:0; font-family:Arial,sans-serif; background:#000; color:#fff;
-    }
-    header { text-align:center; padding:40px; background:#111; }
-    header h1 { color:#f00; font-size:2.5em; margin-bottom:10px; }
-    header p { font-size:1.2em; }
-    header .btn { background:#f00; color:#fff; padding:10px 20px; text-decoration:none; border-radius:5px; display:inline-block; margin-top:10px; }
-    .produtos { display:flex; flex-wrap:wrap; justify-content:center; padding:20px; }
-    .produto { background:#111; border:1px solid #f00; margin:10px; padding:10px; width:200px; text-align:center; border-radius:5px; }
-    .produto img { width:100%; height:200px; object-fit:cover; }
-    .produto h3 { color:#f00; margin:10px 0 5px; }
-    .produto p { font-size:0.9em; margin-bottom:10px; }
-    .btn { background:#f00; color:#fff; padding:5px 10px; text-decoration:none; border-radius:5px; margin:5px 0; display:inline-block; cursor:pointer; }
-    /* Painel admin */
-    #btnAdmin { position:fixed;top:10px;right:10px;background:#f00;color:#fff;padding:10px;z-index:1000;border:none;border-radius:5px;cursor:pointer; }
-    #adminPanel { display:none;background:#111;color:#fff;padding:20px;position:fixed;top:50px;right:50px;width:300px;border:2px solid #f00;z-index:1000; }
-    #adminPanel input { width:100%; margin:5px 0; padding:5px; border-radius:3px; border:none; }
-    #adminPanel button { width:100%; margin:5px 0; padding:8px; background:#f00; border:none; border-radius:3px; color:#fff; cursor:pointer; }
+/* ===== Estilo geral ===== */
+body {
+    margin:0;
+    font-family: 'Arial', sans-serif;
+    background:#000;
+    color:#fff;
+}
+
+a { text-decoration:none; }
+
+/* ===== Banner principal ===== */
+header {
+    position:relative;
+    height:60vh;
+    background:url('https://images.unsplash.com/photo-1599058917219-2e0936ebc3cd?auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+header h1 {
+    color:#f00;
+    font-size:3em;
+    margin:0;
+    text-shadow:2px 2px 4px #000;
+}
+header p {
+    font-size:1.2em;
+    margin:10px 0;
+}
+header .btn-banner {
+    background:#f00;
+    color:#fff;
+    padding:15px 30px;
+    border-radius:50px;
+    font-weight:bold;
+    transition:0.3s;
+}
+header .btn-banner:hover {
+    background:#fff;
+    color:#f00;
+}
+
+/* ===== Categorias ===== */
+#categorias {
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    padding:50px 20px;
+    gap:20px;
+}
+.categoria-card {
+    background:#111;
+    width:180px;
+    height:180px;
+    border-radius:15px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:0.3s;
+    text-align:center;
+    padding:10px;
+}
+.categoria-card img {
+    width:80px;
+    height:80px;
+    object-fit:contain;
+    margin-bottom:10px;
+}
+.categoria-card:hover {
+    background:#f00;
+    color:#000;
+}
+
+/* ===== Vitrine de produtos ===== */
+#produtos {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    padding:50px 20px;
+    gap:20px;
+}
+.produto-card {
+    background:#111;
+    border:2px solid #f00;
+    border-radius:15px;
+    width:220px;
+    overflow:hidden;
+    transition:0.3s;
+    text-align:center;
+}
+.produto-card:hover {
+    transform:scale(1.05);
+}
+.produto-card img {
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+.produto-card h3 {
+    margin:10px 0 5px;
+    color:#f00;
+}
+.produto-card p {
+    font-size:0.9em;
+    margin:0 10px 10px 10px;
+}
+.produto-card .btn-produto {
+    background:#f00;
+    color:#fff;
+    padding:10px;
+    margin:10px;
+    border-radius:50px;
+    display:inline-block;
+    transition:0.3s;
+}
+.produto-card .btn-produto:hover {
+    background:#fff;
+    color:#f00;
+}
+
+/* ===== Rodapé ===== */
+footer {
+    background:#111;
+    padding:40px 20px;
+    display:flex;
+    justify-content:space-around;
+    flex-wrap:wrap;
+}
+footer div {
+    margin:10px;
+}
+footer a {
+    color:#f00;
+}
+footer a:hover {
+    color:#fff;
+}
+
+/* ===== Painel admin oculto ===== */
+#adminSecret {
+    position:fixed;
+    top:10px;
+    right:10px;
+    width:30px;
+    height:30px;
+    cursor:pointer;
+    z-index:1000;
+}
+#adminPanel {
+    display:none;
+    position:fixed;
+    top:50px;
+    right:50px;
+    width:300px;
+    background:#111;
+    border:2px solid #f00;
+    padding:20px;
+    z-index:1001;
+    border-radius:10px;
+}
+#adminPanel input {
+    width:100%;
+    padding:8px;
+    margin:5px 0;
+    border-radius:5px;
+    border:none;
+}
+#adminPanel button {
+    width:100%;
+    padding:10px;
+    margin:5px 0;
+    background:#f00;
+    color:#fff;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
 </style>
 </head>
 <body>
 
+<!-- Banner -->
 <header>
     <h1>Os melhores kimonos e acessórios de Jiu-Jitsu</h1>
     <p>Em um só lugar, com revenda segura!</p>
-    <a href="#produtos" class="btn">Ver Produtos</a>
+    <a href="#produtos" class="btn-banner">Ver Produtos</a>
 </header>
 
-<!-- Botão Admin -->
-<button id="btnAdmin">Admin</button>
+<!-- Categorias -->
+<section id="categorias">
+    <div class="categoria-card" onclick="filtrarCategoria('Kimonos')">
+        <img src="https://cdn-icons-png.flaticon.com/512/100/100641.png" alt="Kimonos">
+        <span>Kimonos</span>
+    </div>
+    <div class="categoria-card" onclick="filtrarCategoria('Faixas')">
+        <img src="https://cdn-icons-png.flaticon.com/512/1076/1076984.png" alt="Faixas">
+        <span>Faixas</span>
+    </div>
+    <div class="categoria-card" onclick="filtrarCategoria('Rash Guards')">
+        <img src="https://cdn-icons-png.flaticon.com/512/100/100639.png" alt="Rash Guards">
+        <span>Rash Guards</span>
+    </div>
+    <div class="categoria-card" onclick="filtrarCategoria('Shorts')">
+        <img src="https://cdn-icons-png.flaticon.com/512/100/100637.png" alt="Shorts">
+        <span>Shorts/Bermudas</span>
+    </div>
+    <div class="categoria-card" onclick="filtrarCategoria('Acessórios')">
+        <img src="https://cdn-icons-png.flaticon.com/512/1076/1077043.png" alt="Acessórios">
+        <span>Acessórios</span>
+    </div>
+</section>
 
-<!-- Painel Admin -->
+<!-- Produtos -->
+<section id="produtos"></section>
+
+<!-- Rodapé -->
+<footer>
+    <div>
+        <h4>Contato</h4>
+        <p>Email: contato@jiujitsuloja.com</p>
+        <p>Tel: +55 11 91234-5678</p>
+    </div>
+    <div>
+        <h4>Redes Sociais</h4>
+        <p><a href="https://instagram.com/seuinsta" target="_blank">Instagram</a></p>
+        <p><a href="https://wa.me/5511912345678" target="_blank">WhatsApp</a></p>
+    </div>
+</footer>
+
+<!-- Ponto secreto admin -->
+<div id="adminSecret"></div>
+
+<!-- Painel admin oculto -->
 <div id="adminPanel">
     <h3>Painel Admin</h3>
     <div id="loginDiv">
@@ -57,59 +262,71 @@
     </div>
 </div>
 
-<!-- Vitrine de produtos -->
-<div class="produtos" id="listaProdutos"></div>
-
 <script>
-// Senha do admin
-const senhaCorreta = "180525";
+// ===== Admin secreto =====
+const adminSecret = document.getElementById('adminSecret');
+const adminPanel = document.getElementById('adminPanel');
+let clickCount = 0;
+adminSecret.addEventListener('click', () => {
+    clickCount++;
+    if(clickCount === 3){
+        adminPanel.style.display = 'block';
+        clickCount = 0;
+    }
+});
 
-// Elementos
-const btnAdmin = document.getElementById("btnAdmin");
-const adminPanel = document.getElementById("adminPanel");
+// ===== Senha admin =====
+const senhaCorreta = "180525";
 const entrarAdmin = document.getElementById("entrarAdmin");
 const painelConteudo = document.getElementById("painelConteudo");
 const sairAdmin = document.getElementById("sairAdmin");
-const listaAdmin = document.getElementById("listaAdmin");
-const listaProdutos = document.getElementById("listaProdutos");
 
-// Produtos no localStorage
+entrarAdmin.addEventListener("click", () => {
+    const senha = document.getElementById("senhaAdmin").value;
+    if(senha === senhaCorreta){
+        painelConteudo.style.display = "block";
+    } else alert("Senha incorreta");
+});
+
+sairAdmin.addEventListener("click", () => {
+    painelConteudo.style.display = "none";
+});
+
+// ===== Produtos =====
 let produtos = JSON.parse(localStorage.getItem("produtos")) || [];
 
-// Mostrar produtos na vitrine
-function renderProdutos() {
+const listaProdutos = document.getElementById("produtos");
+const listaAdmin = document.getElementById("listaAdmin");
+
+function renderProdutos(filtro = null){
     listaProdutos.innerHTML = "";
-    produtos.forEach((p, i) => {
+    produtos.forEach((p,i)=>{
+        if(filtro && p.categoria.toLowerCase() !== filtro.toLowerCase()) return;
         const div = document.createElement("div");
-        div.classList.add("produto");
-        div.dataset.categoria = p.categoria.toLowerCase();
+        div.classList.add("produto-card");
         div.innerHTML = `
             <img src="${p.imagem}" alt="${p.nome}">
             <h3>${p.nome} - R$${p.preco}</h3>
             <p>${p.descricao}</p>
-            <a class="btn" onclick="enviarWhatsApp('${p.nome}','${p.preco}')">Pedir no WhatsApp</a>
+            <a class="btn-produto" onclick="enviarWhatsApp('${p.nome}','${p.preco}')">Pedir no WhatsApp</a>
         `;
         listaProdutos.appendChild(div);
     });
 }
 
-// Renderizar produtos admin
-function renderAdmin() {
+function renderAdmin(){
     listaAdmin.innerHTML = "";
-    produtos.forEach((p, i) => {
+    produtos.forEach((p,i)=>{
         const div = document.createElement("div");
-        div.style.borderBottom = "1px solid #fff";
-        div.style.marginBottom = "5px";
-        div.innerHTML = `
-            ${p.nome} - ${p.categoria} - R$${p.preco}
-            <button onclick="removerProduto(${i})">Remover</button>
-        `;
+        div.style.borderBottom="1px solid #fff";
+        div.style.marginBottom="5px";
+        div.innerHTML = `${p.nome} - ${p.categoria} - R$${p.preco} <button onclick="removerProduto(${i})">Remover</button>`;
         listaAdmin.appendChild(div);
     });
 }
 
 // Adicionar produto
-document.getElementById("adicionarProduto").addEventListener("click", () => {
+document.getElementById("adicionarProduto").addEventListener("click", ()=>{
     const nome = document.getElementById("nomeProduto").value;
     const categoria = document.getElementById("categoriaProduto").value;
     const descricao = document.getElementById("descricaoProduto").value;
@@ -118,56 +335,41 @@ document.getElementById("adicionarProduto").addEventListener("click", () => {
 
     if(!nome || !categoria || !preco) return alert("Preencha nome, categoria e preço");
 
-    produtos.push({nome, categoria, descricao, imagem, preco});
-    localStorage.setItem("produtos", JSON.stringify(produtos));
+    produtos.push({nome,categoria,descricao,imagem,preco});
+    localStorage.setItem("produtos",JSON.stringify(produtos));
     renderProdutos();
     renderAdmin();
 
-    // Limpar campos
-    document.getElementById("nomeProduto").value = "";
-    document.getElementById("categoriaProduto").value = "";
-    document.getElementById("descricaoProduto").value = "";
-    document.getElementById("imagemProduto").value = "";
-    document.getElementById("precoProduto").value = "";
+    document.getElementById("nomeProduto").value="";
+    document.getElementById("categoriaProduto").value="";
+    document.getElementById("descricaoProduto").value="";
+    document.getElementById("imagemProduto").value="";
+    document.getElementById("precoProduto").value="";
 });
 
-// Remover produto
-function removerProduto(i) {
+function removerProduto(i){
     produtos.splice(i,1);
-    localStorage.setItem("produtos", JSON.stringify(produtos));
+    localStorage.setItem("produtos",JSON.stringify(produtos));
     renderProdutos();
     renderAdmin();
 }
 
-// Login admin
-entrarAdmin.addEventListener("click", () => {
-    const senha = document.getElementById("senhaAdmin").value;
-    if(senha === senhaCorreta){
-        painelConteudo.style.display = "block";
-    } else alert("Senha incorreta");
-});
-
-// Sair admin
-sairAdmin.addEventListener("click", () => {
-    painelConteudo.style.display = "none";
-});
-
-// Mostrar painel
-btnAdmin.addEventListener("click", () => {
-    adminPanel.style.display = "block";
-});
-
-// Função WhatsApp
-function enviarWhatsApp(nome, preco) {
-    let numero = "559887420978"; // Troque para seu número
+// WhatsApp
+function enviarWhatsApp(nome,preco){
+    let numero = "5511912345678"; // Troque para seu número
     let mensagem = `Olá, quero pedir este produto:%0A%0AProduto: ${nome}%0APreço: R$${preco}`;
-    window.open(`https://wa.me/${numero}?text=${mensagem}`, "_blank");
+    window.open(`https://wa.me/${numero}?text=${mensagem}`,"_blank");
+}
+
+// Filtrar categoria
+function filtrarCategoria(cat){
+    renderProdutos(cat);
 }
 
 // Inicializa
 renderProdutos();
+renderAdmin();
 </script>
 
 </body>
 </html>
-
